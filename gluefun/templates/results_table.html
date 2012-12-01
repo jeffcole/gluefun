@@ -1,0 +1,28 @@
+<table class="table">
+  <thead>
+    <th>Friend</th>
+    <th>You both liked</th>
+    <th>You both disliked</th>
+    <th>Score</th>
+  </thead>
+  <tbody>
+    {% for friend in ranked_friends %}
+      <tr>
+        <td>{{ friend.friend_name }}</td>
+        <td>
+          <ul class="unstyled">
+            {% for like in friend.both_liked %}<li>{{ like }}</li>{% endfor %}
+          </ul>
+        </td>
+        <td>
+          <ul>
+            {% for dislike in friend.both_disliked %}
+              <li>{{ dislike }}</li>
+            {% endfor %}
+          </ul>
+        </td>
+        <td>{{ friend.score }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% load url from future %}
+
+{% block content %}
+
+  <div class="page-header">
+    <h1>
+      <a href="{% url 'views.login' %}">GlueFun</a>
+      <small>Find out your GetGlue-compatibility</small>
+    </h1>
+  </div>
+
+  <h3>Thanks for logging in.</h3>
+
+  <form action="{% url 'views.home' %}" method="post">
+    {% csrf_token %}
+    <input type="submit" value="Compute my GlueFun!"
+           class="btn btn-primary btn-large" />
+  </form>
+
+{% endblock content %}

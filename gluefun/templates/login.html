@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% load url from future %}
+
+{% block content %}
+
+  <div class="hero-unit">
+    <h1>GlueFun</h1>
+    <div class="row-fluid">
+      <div class="span8">
+        <p>
+          GlueFun shows how compatible you are with your friends, based on your
+          activity on GetGlue. Find out your GetGlue-compatibility.
+        </p>
+      </div>
+    </div>
+    <form action="{% url 'views.login' %}" method="post">
+      {% csrf_token %}
+      <input type="submit" value="Go!" class="btn btn-primary btn-large" />
+    </form>
+  </div>
+
+{% endblock content %}
