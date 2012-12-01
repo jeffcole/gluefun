@@ -1,0 +1,10 @@
+*
+!.gitignore
+!bootstrap/
+bootstrap/*
+!bootstrap/css/
+bootstrap/css/*
+!bootstrap/css/bootstrap.min.css
+!bootstrap/js/
+bootstrap/js/*
+!bootstrap/js/bootstrap.min.js
