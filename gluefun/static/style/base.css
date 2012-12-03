@@ -2,6 +2,10 @@
     text-align: center;
 }
 
-#spinner, #results {
+#complete {
+    display: none;
+}
+
+.progress, #results {
     margin: 40px 0;
 }

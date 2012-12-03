@@ -1,5 +1,0 @@
-*
-!.gitignore
-!dist/
-dist/*
-!dist/spin.min.js

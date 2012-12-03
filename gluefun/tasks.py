@@ -3,10 +3,17 @@ Module to hold Celery tasks for the gluefun app.
 """
 
 
+# This allows division to output floats by default.
+from __future__ import division
+
+import logging
+
 from celery import task
 
-from models import ScoredFriend
+from models import ScoredFriend, TaskCompletion
 
+
+logger = logging.getLogger('gluefun.custom')
 
 LIKED_ACTIONS = ('Checkin', 'Favorited', 'Liked', 'Saved')
 DISLIKED_ACTIONS = ('Disliked', 'Unwanted')
@@ -22,14 +29,16 @@ def compute_friend_scores(client):
     the scored data in ScoredFriend objects.
     """
     friends = client.get_friends()
+    # Remove the getglue user.
+    friends.remove(u'getglue')
     # We're only interested in movies and TV for the time being.
     objects = client.get_objects('movies')
     objects.extend(client.get_objects('tv_shows'))
+    completion = TaskCompletion.objects.create(
+        task_id=compute_friend_scores.request.id)
+    total_friends = len(friends)
 
-    for friend in friends:
-        # Skip the getglue user.
-        if friend == 'getglue':
-            continue
+    for friend_count, friend in enumerate(friends):
         score = 0
         both_liked, both_disliked, object_titles = [], [], []
         for obj in objects:
@@ -71,6 +80,10 @@ def compute_friend_scores(client):
         scored_friend.both_liked = both_liked
         scored_friend.both_disliked = both_disliked
         scored_friend.save()
+        # Update task completion.
+        percent_complete = int(((friend_count + 1) / total_friends) * 100)
+        completion.percent_complete = percent_complete
+        completion.save()
 
 def liked(action):
     return action in LIKED_ACTIONS

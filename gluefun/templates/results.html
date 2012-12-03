@@ -15,22 +15,22 @@
     <span id="working" class="span6 offset3">
       <p class="lead">
         We're now going through your GetGlue activity and comparing it with
-        that of your friends. This could take a while, maybe go watch your
-        favorite show and come back!
+        that of your friends. This could take a while, hang in there!
       </p>
-      <div id="spinner" class="clearfix"></div>
+      <div class="progress progress-striped active clearfix">
+        <div class="bar" style="width: 0%;"></div>
+      </div>
     </span>
-  </div>
+  </div>  
 
   <div id="complete">
     <h3>Here are your results.</h3>
     <h4>Thanks for trying GlueFun!</h4>
     <div id="results"></div>
-  </div>
+  </div>    
 
 {% endblock content %}
 
 {% block script %}
-  <script src="{{ STATIC_URL }}components/spin.js/dist/spin.min.js"></script>
   <script src="{{ STATIC_URL }}script/results.js"></script>
 {% endblock script %}

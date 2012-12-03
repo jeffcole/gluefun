@@ -26,6 +26,16 @@ class ScoredFriend(models.Model):
     def __unicode__(self):
         return _get_unicode(self.user_name, self.friend_name, self.score)
 
+class TaskCompletion(models.Model):
+    """
+    Model to store task progress in the form of a percent complete value.
+    """
+    task_id = models.CharField(max_length=50, primary_key=True)
+    percent_complete = models.IntegerField(default=0)
+
+    def __unicode__(self):
+        return _get_unicode(self.task_id, self.percent_complete)
+
 
 def _get_unicode(*items):
     """Get a space-separated unicode string from the given items."""

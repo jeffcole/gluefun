@@ -3,6 +3,7 @@ Django views for the gluefun app.
 """
 
 
+import json
 import logging
 import pprint
 
@@ -11,12 +12,13 @@ from urlparse import urljoin
 from django.core.urlresolvers import reverse
 from django.http import Http404, HttpResponse
 from django.shortcuts import redirect, render
-from djcelery.models import TaskMeta
+from django.template import RequestContext
+from django.template.loader import render_to_string
 
 import settings
 
 from glueclient import GlueClient
-from models import ScoredFriend
+from models import ScoredFriend, TaskCompletion
 from tasks import compute_friend_scores
 
 
@@ -72,10 +74,9 @@ def home(request):
 def results(request):
     """
     This view handles AJAX requests for results. On each such request, the
-    django-celery TaskMeta model is queried to determine the status of the
-    task. If the task has finished successfully, the ScoredFriend model is
-    queried for the results and they are rendered to the user. If the task
-    hasn't yet finished, a response of 'None' is returned.
+    TaskCompletion model is queried for the percent completion so that the user
+    can monitor progress. Once the task has finished, the ScoredFriend model is
+    queried for the results and they are rendered to the user.
 
     If the request isn't an AJAX request, simply render the results template.
     """
@@ -84,17 +85,21 @@ def results(request):
         task_id = request.session.get('task_id', None)
         if user_name and task_id:
             try:
-                task_status = TaskMeta.objects.get(task_id=task_id).status
-            except TaskMeta.DoesNotExist:
-                task_status = None
+                task_completion = (TaskCompletion.objects.get(task_id=task_id)
+                                   .percent_complete)
+            except TaskCompletion.DoesNotExist:
+                task_completion = 0
             
-            if task_status == 'SUCCESS':
+            html = None
+            if task_completion == 100:
                 ranked_friends = (ScoredFriend.objects
                                   .filter(user_name=user_name).order_by('-score'))
-                return render(request, 'results_table.html',
-                              {'ranked_friends': ranked_friends})
-
-            return HttpResponse('None')
+                html = render_to_string('results_table.html',
+                                        {'ranked_friends': ranked_friends},
+                                        context_instance=RequestContext(request))
+            data = {'task_completion': task_completion, 'html': html}
+            return HttpResponse(json.dumps(data),
+                                content_type='application/json')
 
         raise Http404
 
