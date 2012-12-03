@@ -29,7 +29,6 @@ def compute_friend_scores(client):
     the scored data in ScoredFriend objects.
     """
     friends = client.get_friends()
-    # Remove the getglue user.
     friends.remove(u'getglue')
     # We're only interested in movies and TV for the time being.
     objects = client.get_objects('movies')
@@ -37,6 +36,9 @@ def compute_friend_scores(client):
     completion = TaskCompletion.objects.create(
         task_id=compute_friend_scores.request.id)
     total_friends = len(friends)
+    if total_friends == 0:
+        completion.percent_complete = 100
+        completion.save()
 
     for friend_count, friend in enumerate(friends):
         score = 0
