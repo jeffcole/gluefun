@@ -1,7 +1,7 @@
 GlueFun
 =======
 
-GlueFun is an application that ranks how compatible you are with your friends, according to your/their likes and dislikes on the TV/movie social network GetGlue_.
+GlueFun is an application that ranks how compatible you are with your friends according to your/their likes and dislikes on the TV/movie social network GetGlue_.
 
 
 Features and Examples
@@ -28,7 +28,7 @@ To use GlueFun as a starter project for working with the GetGlue API:
 
 
 .. _GetGlue: http://www.getglue.com
-.. _GetGlue API: http://www.getglue.com/api
+.. _GetGlue RESTful API: http://www.getglue.com/api
 .. _requests: https://github.com/kennethreitz/requests
 .. _Celery: http://celeryproject.org/
 .. _Heroku: http://www.heroku.com
