@@ -20,7 +20,7 @@ Features and Examples
 Quick Start
 -----------
 
-To use GlueFun as a starter project for working with the GetGlue API:
+To use GlueFun as a starter project for working with the GetGlue API in Django_:
 
 #. Update ``CONSUMER_KEY`` and ``SECRET_KEY`` in ``settings.py`` with the values provided to you by GetGlue.
 #. Update ``SITE_ABSOLUTE_URL`` in ``settings.py`` with a URL for your site that can be reached from the outside world (for use by the authorization callback). Might I recommend Heroku?
@@ -30,5 +30,6 @@ To use GlueFun as a starter project for working with the GetGlue API:
 .. _GetGlue: http://www.getglue.com
 .. _GetGlue RESTful API: http://www.getglue.com/api
 .. _requests: https://github.com/kennethreitz/requests
-.. _Celery: http://celeryproject.org/
+.. _Celery: http://celeryproject.org
 .. _Heroku: http://www.heroku.com
+.. _Django: https://www.djangoproject.com
